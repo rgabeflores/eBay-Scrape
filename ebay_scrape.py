@@ -32,29 +32,34 @@ def main():
 		prices.append(round(float(item.currentprice.string), 2))
 		# url = item.viewitemurl.string
 
-	prices.sort()
-	high = prices[len(prices) - 1]
-	low = prices[0]
-	mean = round(stats.mean(prices), 2)
-	median = stats.median(prices)
-	mode = stats.mode(prices)
-	variance = round(stats.variance(prices, average=mean), 2)
-	std_dev = round(stats.std_dev(prices, average=mean, var=variance), 2)
+	if len(prices) > 0:
+		prices.sort()
+		high = prices[len(prices) - 1]
+		low = prices[0]
+		mean = round(stats.mean(prices), 2)
+		median = stats.median(prices)
+		mode = stats.mode(prices)
+		variance = round(stats.variance(prices, average=mean), 2)
+		std_dev = round(stats.std_dev(prices, average=mean, var=variance), 2)
 
-	print("\t" + ("_____" * 10) + "\n")
-	print("\t\tHigh", high)
-	print("\t\tLow", low)
-	print("\t\tMean:", mean)
-	print("\t\tMedian:", median)
-	print("\t\tMode:", mode)
-	print("\t\tVariance:", variance)
-	print("\t\tStandard Deviation:", std_dev)
-	print("\t" + ("_____" * 10) + "\n")
+		print("\t" + ("_____" * 10) + "\n")
+		print("\t\tHigh", high)
+		print("\t\tLow", low)
+		print("\t\tMean:", mean)
+		print("\t\tMedian:", median)
+		print("\t\tMode:", mode)
+		print("\t\tVariance:", variance)
+		print("\t\tStandard Deviation:", std_dev)
+		print("\t" + ("_____" * 10) + "\n")
 
-	print("\tApproximately 68%% of offers are between", round(mean - std_dev, 2),"and", round(mean + std_dev, 2))
-	print("\tApproximately 95%% of offers are between", round(mean - (2 * std_dev), 2),"and", round(mean + (2 * std_dev), 2))
-	print("\tApproximately 99.7%% of offers are between", round(mean - (3 * std_dev), 2),"and", round(mean + (3 * std_dev), 2))
-	print("\t" + ("_____" * 10) + "\n")
+		print("\tApproximately 68%% of offers are between", round(mean - std_dev, 2),"and", round(mean + std_dev, 2))
+		print("\tApproximately 95%% of offers are between", round(mean - (2 * std_dev), 2),"and", round(mean + (2 * std_dev), 2))
+		print("\tApproximately 99.7%% of offers are between", round(mean - (3 * std_dev), 2),"and", round(mean + (3 * std_dev), 2))
+		print("\t" + ("_____" * 10) + "\n")
+	else:
+		print("\t" + ("_____" * 10) + "\n")
+		print("\tNo results were found.")
+		print("\t" + ("_____" * 10) + "\n")
 
 	print("\n\n")
 
