@@ -7,3 +7,8 @@
 3. Mode
 4. Variance
 5. Standard Deviation
+
+#### Requirements:
+
+1. ebaysdk
+2. bs4
