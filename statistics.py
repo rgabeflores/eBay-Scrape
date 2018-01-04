@@ -71,7 +71,7 @@ def variance(a, average=None):
 
 	return total / len(a)
 
-def get_user_choice():
+def get_user_choice(options):
 
 	ui_menu = "\n\t"
 
@@ -124,7 +124,7 @@ def main():
 
 	while cont:
 		
-		choice = get_user_choice()
+		choice = get_user_choice(options)
 
 		print("\n")
 		
@@ -143,7 +143,7 @@ def main():
 		_median = median(values)
 		_mode = mode(values)
 		_variance = variance(values, average=_mean)
-		_std_dev = std_dev(values, average=_mean, variance=_variance)
+		_std_dev = std_dev(values, average=_mean, var=_variance)
 
 		print("\tHigh", _high)
 		print("\tLow", _low)
