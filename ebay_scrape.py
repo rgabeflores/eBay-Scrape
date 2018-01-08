@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 import statistics as stats
 
-# API
-APP_ID = "GabrielF-Scraper-PRD-4134e8f72-f88173a5"
+# INSERT API KEY HERE 
+APP_ID = ""
 
 def call_api(keywords=None):
 
