@@ -1,7 +1,8 @@
 import random as r
 import re
+import ux
 
-options = ["(1) Test Random Numbers", "(2) Input Values"]
+options = ("Test Random Numbers", "Input Values")
 
 def mean(a):
 	'''
@@ -71,37 +72,6 @@ def variance(a, average=None):
 
 	return total / len(a)
 
-def get_user_choice(options):
-
-	ui_menu = "\n\t"
-
-	for option in options:
-		ui_menu += option + "\n\t"
-
-	while True:
-		try:
-			print(ui_menu)
-			choice = int(input("\tEnter a function to use:  "))
-			if choice <= len(options) and choice > 0:
-				return choice
-			else:
-				raise ValueError("Number too large.")
-		except ValueError as e:
-			print("\n\n\tPlease enter a valid choice.\n")
-			continue
-
-
-def to_continue():
-	while True:
-		again = input("Would you like to try again? (Y/N)\n")
-		if again.upper() == "Y":
-			return True
-		elif again.upper() == "N":
-			return False
-		else:
-			print("\n\n\tPlease enter a valid option.\n")
-			continue
-
 def randomTest():
 
 	n = int(input("\tEnter the size of the list to test: "))
@@ -124,7 +94,7 @@ def main():
 
 	while cont:
 		
-		choice = get_user_choice(options)
+		choice = ux.get_user_choice(options)
 
 		print("\n")
 		
@@ -134,11 +104,9 @@ def main():
 			values = userInputTest()
 
 		print("\n\tValues:", values,"\n")
-		values.sort()
-		print("\n\tValues Sorted: ", values)
 
-		_high = values[len(values) - 1]
-		_low = values[0]
+		_high = max(values)
+		_low = min(values)
 		_mean = mean(values)
 		_median = median(values)
 		_mode = mode(values)
@@ -154,7 +122,7 @@ def main():
 		print("\tStandard Deviation:", _std_dev)
 		print("\n\n")
 
-		cont = to_continue()
+		cont = ux.to_continue()
 
 	print("\n\n")
 
