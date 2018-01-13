@@ -2,9 +2,13 @@ from ebaysdk.finding import Connection as finding
 from bs4 import BeautifulSoup
 
 import statistics as stats
+import spreadsheet as ss
+
+'''
+'''
 
 # INSERT API KEY HERE 
-APP_ID = ""
+APP_ID = "GabrielF-Scraper-PRD-4134e8f72-f88173a5"
 
 def call_api(keywords=None):
 
@@ -24,20 +28,11 @@ def main():
 
 	items = call_api(keywords=user_input)
 
-	categories = {}
-	prices = []
-
-	for item in items:
-		if item.categoryname.string.upper() in categories:
-			categories[item.categoryname.string.upper()] += 1
-		else:
-			categories[item.categoryname.string.upper()] = 1
-		prices.append(round(float(item.currentprice.string), 2))
+	prices = [float(item.currentprice.string) for item in items]
 
 	if len(prices) > 0:
-		prices.sort()
-		high = prices[len(prices) - 1]
-		low = prices[0]
+		high = max(prices)
+		low = min(prices)
 		mean = round(stats.mean(prices), 2)
 		median = stats.median(prices)
 		mode = stats.mode(prices)
@@ -46,8 +41,6 @@ def main():
 
 		print("\t" + ("_____" * 10) + "\n")
 		print("\tFound " + str(len(prices)) + " different prices.")
-		for key in categories:
-			print("\tFound " + str(categories[key]) + " in " + key + ".")
 		print("\t" + ("_____" * 10) + "\n")
 
 		print("\tHigh:", high)
