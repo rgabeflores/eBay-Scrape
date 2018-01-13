@@ -6,13 +6,18 @@ import statistics as stats
 import spreadsheet as ss
 
 '''
+	• Requests a keyword search through eBay API w/ ebaysdk
+	• Runs statistical analysis on the results
+	• Appends statistical data to a Google Drive spreadsheet via Google Sheets API
 '''
 
 # INSERT API KEY HERE 
 APP_ID = "GabrielF-Scraper-PRD-4134e8f72-f88173a5"
 
 def call_api(keywords=None):
-
+	'''
+		Uses the ebaysdk library to call eBay's API
+	'''
 	api = finding(appid=APP_ID, config_file=None)
 	api_request = { 'keywords': keywords }
 	response = api.execute('findItemsByKeywords', api_request)
@@ -24,7 +29,7 @@ def call_api(keywords=None):
 	return items
 	
 def main():
-
+	
 	def main_loop():
 		user_input = input("\n\n\tEnter a search: ").strip()
 
