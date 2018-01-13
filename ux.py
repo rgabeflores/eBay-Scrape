@@ -1,5 +1,8 @@
 def get_user_choice(options):
-
+	'''
+		Takes a list or tuple of strings and displays them adjacent to numbers
+		to emulate a menu interface and returns an Integer input taken from user.
+	'''
 	ui_menu = "\n\t"
 
 	for i in range(len(options)):
@@ -18,13 +21,25 @@ def get_user_choice(options):
 			continue
 
 
-def to_continue():
-	while True:
-		again = input("Would you like to try again? (Y/N)\n")
-		if again.upper() == "Y":
-			return True
-		elif again.upper() == "N":
-			return False
-		else:
-			print("\n\n\tPlease enter a valid option.\n")
-			continue
+def to_continue(main):
+	'''
+		A continuous loop wrapper for a main function. Takes a function as a parameter.
+		Useful for providing scripts with the option to run multiple times.
+	'''
+	cont = True
+	while cont:
+
+		main()
+
+		while True:
+			again = input("Would you like to try again? (Y/N)\n")
+			if again.upper() == "Y":
+				break
+			elif again.upper() == "N":
+				cont = False
+				break
+			else:
+				print("\n\n\tPlease enter a valid option.\n")
+				continue
+
+	print("\n\n")

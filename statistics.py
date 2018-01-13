@@ -90,10 +90,7 @@ def userInputTest():
 
 def main():
 
-	cont = True
-
-	while cont:
-		
+	def main_loop():
 		choice = ux.get_user_choice(options)
 
 		print("\n")
@@ -122,9 +119,7 @@ def main():
 		print("\tStandard Deviation:", _std_dev)
 		print("\n\n")
 
-		cont = ux.to_continue()
-
-	print("\n\n")
+	ux.to_continue(main_loop)
 
 if __name__ == "__main__":
 	main()

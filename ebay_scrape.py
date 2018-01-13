@@ -1,6 +1,7 @@
 from ebaysdk.finding import Connection as finding
 from bs4 import BeautifulSoup
 
+import ux
 import statistics as stats
 import spreadsheet as ss
 
@@ -24,44 +25,52 @@ def call_api(keywords=None):
 	
 def main():
 
-	user_input = input("\n\n\tEnter a search: ")
+	def main_loop():
+		user_input = input("\n\n\tEnter a search: ").strip()
 
-	items = call_api(keywords=user_input)
+		items = call_api(keywords=user_input)
 
-	prices = [float(item.currentprice.string) for item in items]
+		prices = [float(item.currentprice.string) for item in items]
 
-	if len(prices) > 0:
-		high = max(prices)
-		low = min(prices)
-		mean = round(stats.mean(prices), 2)
-		median = stats.median(prices)
-		mode = stats.mode(prices)
-		variance = round(stats.variance(prices, average=mean), 2)
-		std_dev = round(stats.std_dev(prices, average=mean, var=variance), 2)
+		if len(prices) > 0:
+			high = max(prices)
+			low = min(prices)
+			mean = round(stats.mean(prices), 2)
+			median = stats.median(prices)
+			mode = stats.mode(prices)
+			variance = round(stats.variance(prices, average=mean), 2)
+			std_dev = round(stats.std_dev(prices, average=mean, var=variance), 2)
 
-		print("\t" + ("_____" * 10) + "\n")
-		print("\tFound " + str(len(prices)) + " different prices.")
-		print("\t" + ("_____" * 10) + "\n")
+			print("\t" + ("_____" * 10) + "\n")
+			print("\tFound " + str(len(prices)) + " different prices.")
+			print("\t" + ("_____" * 10) + "\n")
 
-		print("\tHigh:", high)
-		print("\tLow:", low)
-		print("\tMean:", mean)
-		print("\tMedian:", median)
-		print("\tMode:", mode)
-		print("\tVariance:", variance)
-		print("\tStandard Deviation:", std_dev)
+			print("\tHigh:", high)
+			print("\tLow:", low)
+			print("\tMean:", mean)
+			print("\tMedian:", median)
+			print("\tMode:", mode)
+			print("\tVariance:", variance)
+			print("\tStandard Deviation:", std_dev)
 
-		print("\t" + ("_____" * 10) + "\n")
-		print("\tApproximately 68%% of offers are between", round(mean - std_dev, 2),"and", round(mean + std_dev, 2))
-		print("\tApproximately 95%% of offers are between", round(mean - (2 * std_dev), 2),"and", round(mean + (2 * std_dev), 2))
-		print("\tApproximately 99.7%% of offers are between", round(mean - (3 * std_dev), 2),"and", round(mean + (3 * std_dev), 2))
-		print("\t" + ("_____" * 10) + "\n")
-	else:
-		print("\t" + ("_____" * 10) + "\n")
-		print("\tNo results were found.")
-		print("\t" + ("_____" * 10) + "\n")
+			print("\t" + ("_____" * 10) + "\n")
+			print("\tApproximately 68%% of offers are between", round(mean - std_dev, 2),"and", round(mean + std_dev, 2))
+			print("\tApproximately 95%% of offers are between", round(mean - (2 * std_dev), 2),"and", round(mean + (2 * std_dev), 2))
+			print("\tApproximately 99.7%% of offers are between", round(mean - (3 * std_dev), 2),"and", round(mean + (3 * std_dev), 2))
+			print("\t" + ("_____" * 10) + "\n")
 
-	print("\n\n")
+			print("\tAppending to Spreadsheet...")
+			ss.insert_record([user_input.upper(), len(prices), high, low, mean, median, mode, variance, std_dev], ss.get_row_count() + 1 )
+			print("\tFinished.")
+
+		else:
+			print("\t" + ("_____" * 10) + "\n")
+			print("\tNo results were found.")
+			print("\t" + ("_____" * 10) + "\n")
+
+		print("\n")
+
+	ux.to_continue(main_loop)
 
 if __name__ == "__main__":
 	main()
