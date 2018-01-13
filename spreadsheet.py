@@ -5,7 +5,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 	A script to encapsulate Google Sheets API. The specific spreadsheet is hardcoded.
 '''
 
-
 SCOPE = ['https://spreadsheets.google.com/feeds']
 CREDS = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', SCOPE)
 CLIENT = gspread.authorize(CREDS)
