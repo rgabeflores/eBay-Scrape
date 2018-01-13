@@ -2,13 +2,15 @@
 
 #### This script grabs listings from an eBay search to calculate the following:
 
-1. Mean
-2. Median
-3. Mode
-4. Variance
-5. Standard Deviation
+* Mean
+* Median
+* Mode
+* Variance
+* Standard Deviation
 
-#### Requirements:
+#### The script then appends the statistical analysis to a Google spreadsheet via Google Sheets API
+
+### Requirements:
 
 1. ebaysdk
 2. bs4
