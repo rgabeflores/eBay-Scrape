@@ -1,4 +1,5 @@
 # eBay Item Statistics Scraper
+*Uses the eBay API and Google Sheets API*
 
 #### This script grabs listings from an eBay search to calculate the following:
 
