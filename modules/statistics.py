@@ -1,6 +1,5 @@
 import random as r
 import re
-import ux
 
 options = ("Test Random Numbers", "Input Values")
 
@@ -89,7 +88,8 @@ def userInputTest():
 	return values
 
 def main():
-
+	import ux
+	
 	def main_loop():
 		choice = ux.get_user_choice(options)
 

@@ -1,9 +1,9 @@
 from ebaysdk.finding import Connection as finding
 from bs4 import BeautifulSoup
 
-import ux
-import statistics as stats
-import spreadsheet as ss
+from modules import ux
+from modules import statistics as stats
+from api import spreadsheet as ss
 
 '''
 	• Requests a keyword search through eBay API w/ ebaysdk
