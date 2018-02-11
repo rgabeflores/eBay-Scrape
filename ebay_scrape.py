@@ -96,7 +96,7 @@ def main():
     global APP_ID
 
     try:
-        with open("key.txt", 'r') as f:
+        with open("../key.txt", 'r') as f:
             APP_ID = f.readline().strip()
 
     except FileNotFoundError as e:
