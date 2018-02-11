@@ -1,5 +1,6 @@
 from ebaysdk.finding import Connection as finding
 from bs4 import BeautifulSoup
+from matplotlib import pyplot as plt
 from pprint import PrettyPrinter
 
 from modules import ux
@@ -37,41 +38,45 @@ def call_ebay_api(keywords=None):
 
 
 def new_search():
+
     user_input = input("\n\n\tEnter keywords: ").strip()
 
-    items = (item for item in call_ebay_api(keywords=user_input))
-
-    prices = [float(item.currentprice.string) for item in items]
+    prices = [float(item.currentprice.string) for item in call_ebay_api(keywords=user_input)]
 
     if len(prices) > 0:
-        _high = max(prices)
-        _low = min(prices)
-        _mean = round(mean(prices), 2)
-        _median = median(prices)
-        _mode = mode(prices)
-        _variance = round(variance(prices, average=_mean), 2)
-        _std_dev = round(std_dev(prices, average=_mean, var=_variance), 2)
+        results = {
+            'HIGH': max(prices),
+            'LOW': min(prices),
+            'MEAN': round(mean(prices), 2),
+            'MEDIAN': median(prices),
+            'MODE': mode(prices),
+            # 'VARIANCE': round(variance(prices), 2),
+            'STANDARD DEVIATION': round(std_dev(prices), 2)
+        }
 
         print("\t" + ("_____" * 10) + "\n")
         print("\tFound " + str(len(prices)) + " different prices.")
         print("\t" + ("_____" * 10) + "\n")
 
-        print("\tHigh:", _high)
-        print("\tLow:", _low)
-        print("\tMean:", _mean)
-        print("\tMedian:", _median)
-        print("\tMode:", _mode)
-        print("\tVariance:", _variance)
-        print("\tStandard Deviation:", _std_dev)
+        for key, value in results.items():
+            print('\t{}: {}'.format(key, value))
 
         print("\t" + ("_____" * 10) + "\n")
-        print("\tApproximately 68%% of offers are between", round(_mean - _std_dev, 2), "and", round(_mean + _std_dev, 2))
-        print("\tApproximately 95%% of offers are between", round(_mean - (2 * _std_dev), 2), "and", round(_mean + (2 * _std_dev), 2))
-        print("\tApproximately 99.7%% of offers are between", round(_mean - (3 * _std_dev), 2), "and", round(_mean + (3 * _std_dev), 2))
+        print("\tApproximately 68%% of offers are between", round(results['MEAN'] - results['STANDARD DEVIATION'], 2), "and", round(results['MEAN'] + results['STANDARD DEVIATION'], 2))
+        print("\tApproximately 95%% of offers are between", round(results['MEAN'] - (2 * results['STANDARD DEVIATION']), 2), "and", round(results['MEAN'] + (2 * results['STANDARD DEVIATION']), 2))
+        print("\tApproximately 99.7%% of offers are between", round(results['MEAN'] - (3 * results['STANDARD DEVIATION']), 2), "and", round(results['MEAN'] + (3 * results['STANDARD DEVIATION']), 2))
         print("\t" + ("_____" * 10) + "\n")
+
+        plt.title('Prices')
+        x = [y for y in range(len(prices))]
+        plt.plot(x, prices, '-', color='b')
+        for key, value in results.items():
+            plt.plot(x, [value for i in range(len(prices))], '-', label=key)
+        plt.legend()
+        plt.show()
 
         print("\tAppending to Spreadsheet...")
-        ss.insert_record([user_input.upper(), len(prices), _high, _low, _mean, _median, _mode, _variance, _std_dev], ss.get_row_count() + 1)
+        ss.insert_record([user_input.upper(), len(prices), results['HIGH'], results['LOW'], results['MEAN'], results['MEDIAN'], results['MODE'], results['VARIANCE'], results['STANDARD DEVIATION']], ss.get_row_count() + 1)
         print("\tFinished.")
 
     else:
@@ -94,7 +99,6 @@ def view_spreadsheet():
 def main():
 
     global APP_ID
-
     try:
         with open("../key.txt", 'r') as f:
             APP_ID = f.readline().strip()
@@ -102,6 +106,7 @@ def main():
     except FileNotFoundError as e:
         print("\n\tA text file containing the API key must be present and in the working directory.\n")
         return
+    print(APP_ID)
 
     def main_loop():
         choice = ux.get_user_choice(OPTIONS)
