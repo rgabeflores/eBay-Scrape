@@ -1,7 +1,8 @@
-# eBay Item Statistics Scraper
-*Uses the eBay API and Google Sheets API*
+# eBay Item Scraper
 
-#### This script grabs listings from an eBay search to calculate the following:
+This script uses eBay's API to retrieve data from listings and calculates basic statistics for data visualization. The results are saved to a Google spreadsheet through the Google Sheets API.
+
+The following values are calculated:
 
 * Mean
 * Median
@@ -9,9 +10,7 @@
 * Variance
 * Standard Deviation
 
-#### The script then appends the statistical analysis to a Google spreadsheet via Google Sheets API
 
-### Requirements:
+## Contributors
 
-1. ebaysdk
-2. bs4
+* [Gabriel Flores](https://www.linkedin.com/in/rgabrielflores/)
